@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8086
 
 spring:
   application:
@@ -19,10 +19,14 @@ spring:
               uri: lb://user-service
               predicates:
                 - Path=/users/**
+              filters:
+                - StripPrefix=1
             - id: order-service
               uri: lb://order-service
               predicates:
                 - Path=/orders/**
+              filters:
+                - StripPrefix=1
 
 eureka:
   client:
@@ -31,3 +35,9 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: user-service
+        url: /user-service/v3/api-docs
